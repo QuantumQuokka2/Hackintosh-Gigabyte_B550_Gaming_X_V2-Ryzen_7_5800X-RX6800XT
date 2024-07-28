@@ -1,12 +1,16 @@
-Dim fso, sourceFolder, targetFolder, downloadsFolder
+Dim fso, sourceFolder, targetFolder, shell, downloadsFolder
 Set fso = CreateObject("Scripting.FileSystemObject")
+Set shell = CreateObject("WScript.Shell")
 
-' Get the Downloads directory
-downloadsFolder = CreateObject("WScript.Shell").SpecialFolders("Downloads")
+' Get the user's profile path
+userProfile = shell.ExpandEnvironmentStrings("%USERPROFILE%")
+
+' Define the Downloads directory
+downloadsFolder = userProfile & "\Downloads"
 
 ' Define the source and target folders
 sourceFolder = downloadsFolder & "\Stand"
-targetFolder = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%appdata%") & "\Stand"
+targetFolder = shell.ExpandEnvironmentStrings("%appdata%") & "\Stand"
 
 ' Check if the source folder exists
 If fso.FolderExists(sourceFolder) Then
@@ -18,3 +22,4 @@ If fso.FolderExists(sourceFolder) Then
 End If
 
 Set fso = Nothing
+Set shell = Nothing
